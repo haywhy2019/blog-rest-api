@@ -1,5 +1,7 @@
 package com.springboot.blog;
 
+import com.springboot.blog.entity.Role;
+import com.springboot.blog.repository.RoleRepository;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
@@ -27,7 +29,7 @@ import org.springframework.context.annotation.Bean;
                 url = "http://localhost:8080/v3/api-docs"
         )
 )
-public class BlogRestApiApplication {
+public class BlogRestApiApplication  implements org.springframework.boot.CommandLineRunner {
     @Bean
     public ModelMapper modelMapper(){
         return new ModelMapper();
@@ -36,4 +38,17 @@ public class BlogRestApiApplication {
 		SpringApplication.run(BlogRestApiApplication.class, args);
 	}
 
+
+    private RoleRepository roleRepository;
+
+    @Override
+    public void run(String... args) throws Exception {
+         Role adminRole = new Role();
+         adminRole.setName("ROLE_ADMIN");
+         roleRepository.save(adminRole);
+
+         Role userRole = new Role();
+         userRole.setName("ROLE_USER");
+         roleRepository.save(userRole);
+    }
 }
